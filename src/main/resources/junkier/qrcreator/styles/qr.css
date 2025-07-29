@@ -1,0 +1,78 @@
+.root{
+    -fx-font-family: "Trebuchet MS", Arial, sans-serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.labelTittle{
+    -fx-font-size: 22;
+    -fx-font-weight: bold;
+    -fx-font-family:  Trebuchet MS;
+    -fx-text-fill: linear-gradient(
+        from 0% 0% to 100% 100%,
+        #007bff,
+        #0056b3
+        );
+}
+.block{
+    -fx-background-color:  #efefef;
+    -fx-background-radius: 20;
+    -fx-effect:  dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.1, 3, 3);
+}
+
+.field {
+    -fx-focus-color: #3399ff;
+    -fx-faint-focus-color: #3399ff22;
+    -fx-border-radius: 3px;
+    -fx-border-color: #0056b3;
+}
+
+
+.button {
+    -fx-background-color: linear-gradient(
+        from 0% 0% to 100% 100%,
+        #007bff,
+        #0056b3
+        );
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0.5, 0, 0);
+}
+.button:pressed {
+    -fx-translate-y: 1;
+    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0.5, 0, 1);
+    -fx-transition: all 0.3s ease-in-out;
+}
+.button:hover {
+    -fx-background-color: linear-gradient(
+        from 0% 0% to 100% 100%,
+        #0056b3,
+        #003c80
+        );
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+
+.color-picker {
+    -fx-background-color: linear-gradient(
+        from 0% 0% to 100% 100%,
+        #007bff,
+        #0056b3
+        );
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0.5, 0, 0);
+    -fx-mark-color: white;
+}
+
+.color-picker .color-picker-label {
+    -fx-text-fill: white;
+}
+
+.glow {
+    -fx-effect: dropshadow(gaussian, transparent, 0, 0, 0, 0);
+    -fx-transition: all 0.3s ease-in-out;
+}
+.glow:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 255, 0.6), 20, 0.3, 0, 0);
+}

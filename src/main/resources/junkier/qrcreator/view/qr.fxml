@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="900.0" stylesheets="@../styles/qr.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="junkier.qrcreator.controller.QrController">
+   <top>
+      <HBox alignment="TOP_LEFT" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="100.0" fitWidth="178.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../ViajesDonana/src/main/resources/ayuntamiento/viajes/icons/global_logo-ayunt.png" />
+               </image>
+            </ImageView>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets left="50.0" top="10.0" />
+         </padding>
+      </HBox>
+   </top>
+   <center>
+      <HBox alignment="CENTER" prefHeight="470.0" prefWidth="607.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="CENTER" maxHeight="-Infinity" prefHeight="500.0" prefWidth="400.0" spacing="4.0" styleClass="block">
+               <children>
+                  <HBox alignment="CENTER" prefWidth="354.0" VBox.vgrow="NEVER">
+                     <children>
+                        <Label styleClass="labelTittle" text="Generador de QRs" textAlignment="CENTER" textFill="RED">
+                           <font>
+                              <Font name="Trebuchet MS" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="105.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <ImageView fitHeight="28.0" fitWidth="27.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" styleClass="glow" HBox.hgrow="NEVER">
+                           <image>
+                              <Image url="@../icons/clean-filters_qr.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                  </HBox>
+                  <Line startX="400.0" stroke="RED" strokeWidth="2.0">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Line>
+                  <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="5.0">
+                     <children>
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="37.0">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <children>
+                              <Label contentDisplay="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="22.0" prefWidth="140.0" text="Fondo" textFill="#007bff">
+                                 <font>
+                                    <Font name="Trebuchet MS Bold" size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="30.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Region HBox.hgrow="ALWAYS" />
+                              <ColorPicker fx:id="backGrPicker" onAction="#refreshPicker" prefHeight="38.0" prefWidth="151.0" style="-fx-cursor: hand; -fx-text-fill: white;" styleClass="button">
+                                 <HBox.margin>
+                                    <Insets right="35.0" />
+                                 </HBox.margin></ColorPicker>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" />
+                           </padding>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="NEVER">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="10.0" />
+                           </padding>
+                           <children>
+                              <Label contentDisplay="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="22.0" prefWidth="140.0" text="Patrones" textFill="#007bff">
+                                 <font>
+                                    <Font name="Trebuchet MS Bold" size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="30.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Region HBox.hgrow="ALWAYS" />
+                              <ColorPicker fx:id="frontPatPicker" onAction="#refreshPicker" prefHeight="38.0" prefWidth="151.0" style="-fx-cursor: hand; -fx-text-fill: white;" styleClass="button">
+                                 <value>
+                                    <Color />
+                                 </value>
+                                 <HBox.margin>
+                                    <Insets right="35.0" />
+                                 </HBox.margin>
+                              </ColorPicker>
+                           </children>
+                        </HBox>
+                        <Label contentDisplay="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefWidth="241.0" text="Nombre " textFill="#007bff">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="5.0" />
+                           </padding>
+                        </Label>
+                        <HBox alignment="CENTER" VBox.vgrow="NEVER">
+                           <children>
+                              <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icons/choose-name_qr.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets right="18.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <TextField fx:id="nameQrTF" onKeyTyped="#refreshName" prefWidth="275.0" promptText="Nombre" styleClass="field">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="10.0" />
+                           </padding>
+                        </HBox>
+                        <Label contentDisplay="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefWidth="241.0" text="Enlace" textFill="#007bff">
+                           <font>
+                              <Font name="Trebuchet MS Bold" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="5.0" />
+                           </padding>
+                        </Label>
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="173.0" VBox.vgrow="NEVER">
+                           <children>
+                              <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icons/link_qr.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets right="18.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <TextField fx:id="adressQrTF" onKeyTyped="#refreshAdress" prefWidth="275.0" promptText="Enlace" styleClass="field">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER" prefWidth="402.0">
+                           <children>
+                              <Text fx:id="imagePathField" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="200.80004358291626">
+                                 <HBox.margin>
+                                    <Insets left="30.0" />
+                                 </HBox.margin></Text>
+                              <Region HBox.hgrow="ALWAYS" />
+                              <Button mnemonicParsing="false" onAction="#chooseImageFile" prefHeight="56.0" prefWidth="102.0" text="Imagen Central" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                                 <font>
+                                    <Font name="Trebuchet MS" size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="40.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </VBox>
+                  <Line startX="400.0" stroke="RED" strokeWidth="2.0">
+                     <VBox.margin>
+                        <Insets bottom="15.0" top="10.0" />
+                     </VBox.margin>
+                  </Line>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#printQr" prefHeight="30.0" prefWidth="160.0" textAlignment="CENTER">
+                     <graphic>
+                        <Label>
+                           <graphic>
+                              <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icons/download_qr.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Label>
+                     </graphic>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="30.0" />
+         </padding>
+      </HBox>
+   </center>
+   <bottom>
+      <HBox alignment="BOTTOM_CENTER" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="© 2025 Ayuntamiento de Almonte" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font name="Trebuchet MS Bold" size="12.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="3.0" />
+               </HBox.margin>
+            </Label>
+            <Pane HBox.hgrow="ALWAYS" />
+            <Label onMouseClicked="#serviceterms" style="-fx-cursor: hand;" styleClass="privacity" text="Términos de Servicio">
+               <HBox.margin>
+                  <Insets bottom="3.0" right="25.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="Trebuchet MS Bold" size="12.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="20.0" fitWidth="200.0" onMouseClicked="#exit" pickOnBounds="true" preserveRatio="true" styleClass="glow">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <image>
+                  <Image url="@../icons/exit_qr.png" />
+               </image>
+            </ImageView>
+         </children>
+         <padding>
+            <Insets bottom="30.0" left="50.0" right="50.0" top="10.0" />
+         </padding>
+      </HBox>
+   </bottom>
+</BorderPane>
