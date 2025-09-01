@@ -52,6 +52,37 @@
     -fx-transition: all 0.3s ease-in-out;
 }
 
+.choice-box {
+    -fx-background-color: linear-gradient(
+        from 0% 0% to 100% 100%,
+        #007bff,
+        #0056b3
+        );
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0.5, 0, 0);
+}
+.choice-box > .label {
+    -fx-text-fill: white;
+}
+.choice-box .list-view {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #007bff, #0056b3);
+    -fx-background-radius: 5;
+}
+.choice-box:pressed {
+    -fx-translate-y: 1;
+    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0.5, 0, 1);
+    -fx-transition: all 0.3s ease-in-out;
+}
+.choice-box:hover {
+    -fx-background-color: linear-gradient(
+        from 0% 0% to 100% 100%,
+        #0056b3,
+        #003c80
+        );
+    -fx-transition: all 0.3s ease-in-out;
+}
+
 
 .color-picker {
     -fx-background-color: linear-gradient(

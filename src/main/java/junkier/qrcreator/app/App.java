@@ -18,10 +18,11 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("/junkier/qrcreator/view/qr"), 1000, 800);
+        scene = new Scene(loadFXML("/junkier/qrcreator/view/qr"), 1100, 800);
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/junkier/qrcreator/icons/icon-ayunt.png")));
         stage.setTitle("QR Creator");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 

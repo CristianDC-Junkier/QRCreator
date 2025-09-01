@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -18,7 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="900.0" stylesheets="@../styles/qr.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="junkier.qrcreator.controller.QrController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1000.0" stylesheets="@../styles/qr.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="junkier.qrcreator.controller.QrController">
    <top>
       <HBox alignment="TOP_LEFT" BorderPane.alignment="CENTER">
          <children>
@@ -37,9 +38,9 @@
       </HBox>
    </top>
    <center>
-      <HBox alignment="CENTER" prefHeight="470.0" prefWidth="607.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="470.0" prefWidth="607.0" spacing="25.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox alignment="CENTER" maxHeight="-Infinity" prefHeight="500.0" prefWidth="400.0" spacing="4.0" styleClass="block">
+            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="518.0" prefWidth="442.0" spacing="4.0" styleClass="block">
                <children>
                   <HBox alignment="CENTER" prefWidth="354.0" VBox.vgrow="NEVER">
                      <children>
@@ -52,7 +53,7 @@
                            </HBox.margin>
                         </Label>
                         <Region HBox.hgrow="ALWAYS" />
-                        <ImageView fitHeight="28.0" fitWidth="27.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" styleClass="glow" HBox.hgrow="NEVER">
+                        <ImageView fitHeight="28.0" fitWidth="27.0" nodeOrientation="INHERIT" onMouseClicked="#clean" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" styleClass="glow" HBox.hgrow="NEVER">
                            <image>
                               <Image url="@../icons/clean-filters_qr.png" />
                            </image>
@@ -62,16 +63,16 @@
                         <Insets bottom="10.0" />
                      </padding>
                   </HBox>
-                  <Line startX="400.0" stroke="RED" strokeWidth="2.0">
+                  <Line startX="400.0" strokeWidth="2.0">
                      <VBox.margin>
-                        <Insets bottom="10.0" />
+                        <Insets bottom="20.0" />
                      </VBox.margin>
                   </Line>
-                  <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="5.0">
+                  <VBox alignment="CENTER" prefHeight="341.0" prefWidth="402.0" spacing="5.0">
                      <children>
-                        <HBox alignment="CENTER" layoutX="10.0" layoutY="37.0">
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="37.0" prefHeight="44.0" prefWidth="400.0">
                            <VBox.margin>
-                              <Insets />
+                              <Insets bottom="5.0" top="5.0" />
                            </VBox.margin>
                            <children>
                               <Label contentDisplay="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="22.0" prefWidth="140.0" text="Fondo" textFill="#007bff">
@@ -88,17 +89,11 @@
                                     <Insets right="35.0" />
                                  </HBox.margin></ColorPicker>
                            </children>
-                           <padding>
-                              <Insets bottom="10.0" />
-                           </padding>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" VBox.vgrow="NEVER">
+                        <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="400.0" VBox.vgrow="NEVER">
                            <VBox.margin>
-                              <Insets />
+                              <Insets bottom="5.0" top="5.0" />
                            </VBox.margin>
-                           <padding>
-                              <Insets bottom="10.0" />
-                           </padding>
                            <children>
                               <Label contentDisplay="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="22.0" prefWidth="140.0" text="Patrones" textFill="#007bff">
                                  <font>
@@ -109,7 +104,7 @@
                                  </HBox.margin>
                               </Label>
                               <Region HBox.hgrow="ALWAYS" />
-                              <ColorPicker fx:id="frontPatPicker" onAction="#refreshPicker" prefHeight="38.0" prefWidth="151.0" style="-fx-cursor: hand; -fx-text-fill: white;" styleClass="button">
+                              <ColorPicker fx:id="frontPatPicker" onAction="#refreshPicker" prefHeight="37.0" prefWidth="151.0" style="-fx-cursor: hand; -fx-text-fill: white;" styleClass="button">
                                  <value>
                                     <Color />
                                  </value>
@@ -119,17 +114,41 @@
                               </ColorPicker>
                            </children>
                         </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="400.0">
+                           <children>
+                              <Label contentDisplay="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="22.0" prefWidth="140.0" text="Esquinas" textFill="#007bff">
+                                 <font>
+                                    <Font name="Trebuchet MS Bold" size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="30.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <ChoiceBox fx:id="eyesCB" prefWidth="150.0" style="-fx-cursor: hand;">
+                                 <HBox.margin>
+                                    <Insets left="46.0" />
+                                 </HBox.margin>
+                              </ChoiceBox>
+                              <Region HBox.hgrow="ALWAYS" />
+                           </children>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </HBox>
                         <Label contentDisplay="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefWidth="241.0" text="Nombre " textFill="#007bff">
                            <font>
-                              <Font name="Trebuchet MS Bold" size="18.0" />
+                              <Font name="Trebuchet MS Bold" size="16.0" />
                            </font>
                            <padding>
                               <Insets bottom="5.0" />
                            </padding>
+                           <VBox.margin>
+                              <Insets top="15.0" />
+                           </VBox.margin>
                         </Label>
                         <HBox alignment="CENTER" VBox.vgrow="NEVER">
                            <children>
-                              <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="24.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../icons/choose-name_qr.png" />
                                  </image>
@@ -141,6 +160,9 @@
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
+                                 <font>
+                                    <Font name="Trebuchet MS" size="12.0" />
+                                 </font>
                               </TextField>
                            </children>
                            <VBox.margin>
@@ -152,7 +174,7 @@
                         </HBox>
                         <Label contentDisplay="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefWidth="241.0" text="Enlace" textFill="#007bff">
                            <font>
-                              <Font name="Trebuchet MS Bold" size="18.0" />
+                              <Font name="Trebuchet MS Bold" size="16.0" />
                            </font>
                            <padding>
                               <Insets bottom="5.0" />
@@ -160,7 +182,7 @@
                         </Label>
                         <HBox alignment="CENTER" layoutX="10.0" layoutY="173.0" VBox.vgrow="NEVER">
                            <children>
-                              <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="24.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../icons/link_qr.png" />
                                  </image>
@@ -172,10 +194,13 @@
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
+                                 <font>
+                                    <Font name="Trebuchet MS" size="12.0" />
+                                 </font>
                               </TextField>
                            </children>
                            <padding>
-                              <Insets bottom="10.0" />
+                              <Insets bottom="15.0" />
                            </padding>
                            <VBox.margin>
                               <Insets />
@@ -183,18 +208,26 @@
                         </HBox>
                         <HBox alignment="CENTER" prefWidth="402.0">
                            <children>
-                              <Text fx:id="imagePathField" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="200.80004358291626">
+                              <Text fx:id="imagePathField" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="224.80004358291626" HBox.hgrow="NEVER">
                                  <HBox.margin>
-                                    <Insets left="30.0" />
-                                 </HBox.margin></Text>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Trebuchet MS" size="12.0" />
+                                 </font></Text>
                               <Region HBox.hgrow="ALWAYS" />
-                              <Button mnemonicParsing="false" onAction="#chooseImageFile" prefHeight="56.0" prefWidth="102.0" text="Imagen Central" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                              <Button mnemonicParsing="false" onAction="#chooseImageFile" prefHeight="56.0" prefWidth="102.0" style="-fx-font-weight: bold;" text="Imagen Central" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                                  <font>
                                     <Font name="Trebuchet MS" size="14.0" />
                                  </font>
                                  <HBox.margin>
-                                    <Insets right="40.0" />
+                                    <Insets right="10.0" />
                                  </HBox.margin>
+                              </Button>
+                              <Button mnemonicParsing="false" onAction="#dropImageFile" prefHeight="56.0" prefWidth="50.0" style="-fx-font-weight: bold;" text="X" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                                 <font>
+                                    <Font name="Trebuchet MS" size="14.0" />
+                                 </font>
                               </Button>
                            </children>
                         </HBox>
@@ -203,9 +236,9 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </VBox>
-                  <Line startX="400.0" stroke="RED" strokeWidth="2.0">
+                  <Line startX="400.0" strokeWidth="2.0">
                      <VBox.margin>
-                        <Insets bottom="15.0" top="10.0" />
+                        <Insets bottom="15.0" />
                      </VBox.margin>
                   </Line>
                   <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#printQr" prefHeight="30.0" prefWidth="160.0" textAlignment="CENTER">
@@ -229,6 +262,19 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </padding>
             </VBox>
+            <VBox alignment="CENTER" maxHeight="-Infinity" prefHeight="518.0" prefWidth="344.0" spacing="20.0" styleClass="block">
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+               <children>
+                  <Label styleClass="labelTittle" text="Vista Previa" textAlignment="CENTER" textFill="RED">
+                     <font>
+                        <Font name="Trebuchet MS" size="18.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="qrImage" fitHeight="350.0" fitWidth="350.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </VBox>
          </children>
          <padding>
             <Insets bottom="30.0" />
@@ -247,14 +293,6 @@
                </HBox.margin>
             </Label>
             <Pane HBox.hgrow="ALWAYS" />
-            <Label onMouseClicked="#serviceterms" style="-fx-cursor: hand;" styleClass="privacity" text="Términos de Servicio">
-               <HBox.margin>
-                  <Insets bottom="3.0" right="25.0" />
-               </HBox.margin>
-               <font>
-                  <Font name="Trebuchet MS Bold" size="12.0" />
-               </font>
-            </Label>
             <ImageView fitHeight="20.0" fitWidth="200.0" onMouseClicked="#exit" pickOnBounds="true" preserveRatio="true" styleClass="glow">
                <cursor>
                   <Cursor fx:constant="HAND" />
