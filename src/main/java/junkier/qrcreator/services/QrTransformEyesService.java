@@ -6,6 +6,10 @@ import java.util.List;
 
 /**
  * Servicio para transformar los ojos de un QR a distintas formas.
+ *
+ * @author Cristian Delgado Cruz
+ * @since 2025-09-01
+ * @version 1.0
  */
 public class QrTransformEyesService {
 
@@ -39,23 +43,21 @@ public class QrTransformEyesService {
 
     /**
      * Método principal que transforma los ojos del BitMatrix según la forma
-     * deseada.
+     * deseada. Detecta los ojos por tamaño (los más grandes) y selecciona los 3
+     * más cercanos a las esquinas
      *
-     * @param matrix
-     * @param shape
+     * @param matrix matriz con los valores del qr
+     * @param shape forma en la cual queremos colocar el qr
      * @return
      */
     public static BitMatrix transformEyes(BitMatrix matrix, EyeShape shape) {
         int size = matrix.getWidth();
         boolean[][] processed = new boolean[size][size];
 
-        // Detectar todos los bloques grandes (potenciales ojos)
         List<int[]> candidates = detectLargeBlocks(matrix, processed);
 
-        // Seleccionar los 3 bloques más cercanos a las esquinas
         List<int[]> eyes = selectEyesByProximityToCorners(candidates, size, 3);
 
-        // Aplicar la forma deseada a cada ojo
         for (int[] eye : eyes) {
             applyShape(matrix, eye, shape);
         }
@@ -66,6 +68,11 @@ public class QrTransformEyesService {
     /**
      * Detecta todos los bloques cuadrados grandes en la matriz. Devuelve lista
      * de {x, y, blockSize}.
+     *
+     * @param matrix matriz con los valores del QR
+     * @param boolean tabla (lista bidimensional) donde se coloca si el bit fue
+     * procesado o no
+     * @return la lista bidimensional de candidatos
      */
     private static List<int[]> detectLargeBlocks(BitMatrix matrix, boolean[][] processed) {
         int size = matrix.getWidth();
@@ -95,6 +102,11 @@ public class QrTransformEyesService {
 
     /**
      * Detecta el tamaño de un bloque cuadrado comenzando en (x, y).
+     *
+     * @param matrix matriz con los valores del QR
+     * @param x posicion x inicial del bloque candidato
+     * @param y posicion y inicial del bloque candidato
+     * @return tamaño del bloque
      */
     private static int detectSquareBlock(BitMatrix matrix, int x, int y) {
         int size = matrix.getWidth();
@@ -124,7 +136,13 @@ public class QrTransformEyesService {
     }
 
     /**
-     * Selecciona los n bloques más cercanos a cualquier esquina.
+     * Selecciona los n bloques más cercanos a cualquier esquina, filrando por
+     * primero el tamaño maximo, luego los 3 más cercanos
+     * 
+     * @param candidates lista de candidatos previamente seleccionados
+     * @param matrixSize tamaño completo de la matriz
+     * @param n bloques totales a elegir
+     * @return 
      */
     private static List<int[]> selectEyesByProximityToCorners(List<int[]> candidates, int matrixSize, int n) {
         int[][] corners = {
@@ -133,10 +151,8 @@ public class QrTransformEyesService {
             {0, matrixSize - 1} // bottom-left
         };
 
-        // 1. Encontrar el tamaño máximo
         int maxSize = candidates.stream().mapToInt(b -> b[2]).max().orElse(0);
 
-        // 2. Filtrar solo los bloques de tamaño máximo
         List<int[]> maxCandidates = new ArrayList<>();
         for (int[] c : candidates) {
             if (c[2] == maxSize) {
@@ -144,15 +160,17 @@ public class QrTransformEyesService {
             }
         }
 
-        // 3. Ordenar los bloques máximos por distancia mínima a cualquier esquina
         maxCandidates.sort((a, b) -> Integer.compare(minDistanceToCorners(a, corners), minDistanceToCorners(b, corners)));
 
-        // 4. Tomar los n primeros (los más cercanos a las esquinas)
         return maxCandidates.stream().limit(n).toList();
     }
 
     /**
      * Calcula la distancia mínima de un bloque a las esquinas.
+     * 
+     * @param candidate candidato elegido
+     * @param corners esquinas de la matriz previamente asignadas
+     * @return valor de la distancia minima
      */
     private static int minDistanceToCorners(int[] candidate, int[][] corners) {
         int x0 = candidate[0];
@@ -175,6 +193,12 @@ public class QrTransformEyesService {
 
     /**
      * Aplica la forma deseada a un bloque de la matriz.
+     * CIRCULO, CORAZON, ESTRELLA, FLOR, SUMA, MULTIPLICACIÓN
+     * CRUZ, SOL, COPO DE NIEVE o DEFAULT = CUADRADO
+     * 
+     * @param matrix Matriz original 
+     * @param eye bloque que hay que cambiar
+     * @param shape forma elegida
      */
     private static void applyShape(BitMatrix matrix, int[] eye, EyeShape shape) {
         int x0 = eye[0];
@@ -233,7 +257,6 @@ public class QrTransformEyesService {
                         keep = Math.abs(nx + ny) <= 0.2 || Math.abs(nx - ny) <= 0.2;
                     case SUN -> {
                         double r = Math.sqrt(nx * nx + ny * ny);
-                        double angle = Math.atan2(ny, nx);
 
                         double centerRadius = 0.6;
                         int spikes = 8;
@@ -259,6 +282,7 @@ public class QrTransformEyesService {
 
                         keep = central || rays;
                     }
+
                     case SNOWFLAKE -> {
                         double angle = Math.atan2(ny, nx);
                         double r = Math.sqrt(nx * nx + ny * ny);

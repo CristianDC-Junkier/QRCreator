@@ -16,6 +16,13 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 import junkier.qrcreator.services.QrTransformEyesService.EyeShape;
 
+/**
+ * Servicio que se encarga de generar, tanto el preview como el Qr en si
+ *
+ * @author Cristian Delgado Cruz
+ * @since 2025-07-28
+ * @version 1.3
+ */
 public class QrGeneratorService {
 
     private static final int SIZE = 600;
@@ -54,6 +61,7 @@ public class QrGeneratorService {
         Color awtBack = fxColorToAwt(backGrPicker);
 
         BitMatrix matrix = createMatrix(adressQrTF);
+
         matrix = QrTransformEyesService.transformEyes(matrix, eyeshape);
 
         int matrixSize = matrix.getWidth();

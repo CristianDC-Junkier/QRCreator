@@ -22,11 +22,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 
 /**
- * FXML Controller class
+ * Controlador que controla la pantalla principal, donde el usuario
+ * puede elegir crear, o leer un QR
  *
- * @author Cristian
+ * @author Cristian Delgado Cruz
+ * @since 2025-07-29
+ * @version 1.2
  */
 public class QrController implements Initializable {
 
@@ -45,6 +50,8 @@ public class QrController implements Initializable {
     @FXML
     private ChoiceBox<EyeShape> eyesCB;
 
+    private Stage parentStage;
+
     private static final String INVALID_FILENAME_CHARS = "[\\\\/:*?\"<>|]";
     protected final String errorStyle
             = "-fx-background-color: "
@@ -53,6 +60,7 @@ public class QrController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         eyesCB.setItems(FXCollections.observableArrayList(EyeShape.values()));
         eyesCB.setValue(eyesCB.getItems().getFirst());
         // Listener para cambios de selección
@@ -111,6 +119,8 @@ public class QrController implements Initializable {
                 backGrPicker.getValue(),
                 eyesCB.getValue()
         );
+
+        parentStage = (Stage) imagePathField.getScene().getWindow();
         if (result != null) {
             try {
                 File file = new File(result);
@@ -120,14 +130,52 @@ public class QrController implements Initializable {
                     }
                 }
             } catch (Exception ex) {
-                System.out.println("Error al abrir el archivo");
+                InfoController.showInfoDialog(parentStage, "Error al abrir el QR generado", true);
+            }finally{
+               clean();
             }
         } else {
-            System.out.println("Resultado erroneo");
+            InfoController.showInfoDialog(parentStage, "Error generando el QR", true);
         }
     }
 
+    /**
+     * Metodo que lee el Qr, mostrando el valor del contenido
+     */
     @FXML
+    private void readQr() {
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar la Imagen del QR");
+
+        FileChooser.ExtensionFilter filter
+                = new ExtensionFilter("Imagen del Qr", "*.png", "*.jpg", "*.jpeg");
+        fileChooser.getExtensionFilters().add(filter);
+
+        fileChooser.setInitialDirectory(
+                new File(System.getProperty("user.home") + File.separator + "Desktop")
+        );
+
+        parentStage = (Stage) imagePathField.getScene().getWindow();
+        File selectedFile = fileChooser.showOpenDialog(parentStage);
+
+        if (selectedFile != null) {
+            try {
+                String content = QrReadService.readQrContent(selectedFile);
+                if (content != null) {
+                    InfoController.showInfoDialog(parentStage, "Contenido del QR:\n" + content, false);
+                } else {
+                    InfoController.showInfoDialog(parentStage, "Error leyendo el QR, está mal construido o es de baja calidad", true);
+                }
+            } catch (Exception ex) {
+                InfoController.showInfoDialog(parentStage, "Error leyendo el QR, recuerde elegir una imagen valida", true);
+            }
+        }
+    }
+    
+    /**
+     *  Metodo que muestra el cambio del qr a tiempo real
+     */
     private void previewQr() {
         String content = adressQrTF.getText().isBlank() ? "null" : adressQrTF.getText();
 
@@ -169,6 +217,9 @@ public class QrController implements Initializable {
         previewQr();
     }
 
+    /**
+     * Metodo elegir la imagen
+     */
     @FXML
     private void chooseImageFile() {
         FileChooser fileChooser = new FileChooser();
