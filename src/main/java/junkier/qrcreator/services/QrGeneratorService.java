@@ -1,6 +1,8 @@
 package junkier.qrcreator.services;
 
-import com.google.zxing.*;
+import com.google.zxing.WriterException;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.common.BitMatrix;
 
@@ -28,7 +30,17 @@ public class QrGeneratorService {
     private static final int SIZE = 600;
     private static final int MARGIN = 1;
 
-    // Generar y guardar en disco 
+    /**
+     * Generar y guardar en disco
+     *
+     * @param adressQrTF Datos del QR
+     * @param nameQrTF Nombre del QR, con el que se guardará en disco
+     * @param imagePathField Imagen central, si la hubiera
+     * @param frontPatPicker Color de los datos de la matriz
+     * @param backGrPicker Color del fondo del QR
+     * @param eyeshape Forma de las esquinas del QR elegida
+     * @return Ruta del QR Generado
+     */
     public static String generator(String adressQrTF, String nameQrTF, String imagePathField,
             javafx.scene.paint.Color frontPatPicker, javafx.scene.paint.Color backGrPicker, EyeShape eyeshape) {
         try {
@@ -37,12 +49,20 @@ public class QrGeneratorService {
             saveImage(qr, outputPath);
             return outputPath;
         } catch (Exception e) {
-            System.out.println("Error en el generador - " + e.getMessage());
             return null;
         }
     }
 
-    // Generar preview para ImageView
+    /**
+     * Generar preview para ImageView
+     *
+     * @param adressQrTF Datos del QR
+     * @param imagePathField Imagen central, si la hubiera
+     * @param frontPatPicker Color de los datos de la matriz
+     * @param backGrPicker Color del fondo del QR
+     * @param eyeshape Forma de las esquinas del QR elegida
+     * @return Imagen de la Matriz generada
+     */
     public static BufferedImage generatorPreview(String adressQrTF, String imagePathField,
             javafx.scene.paint.Color frontPatPicker, javafx.scene.paint.Color backGrPicker, EyeShape eyeshape) {
         try {
@@ -62,7 +82,7 @@ public class QrGeneratorService {
 
         BitMatrix matrix = createMatrix(adressQrTF);
 
-        matrix = QrTransformEyesService.transformEyes(matrix, eyeshape);
+        matrix = (BitMatrix) QrTransformEyesService.transformEyes(matrix, eyeshape);
 
         int matrixSize = matrix.getWidth();
         double modulePixel = (double) SIZE / matrixSize;
@@ -94,7 +114,15 @@ public class QrGeneratorService {
         return qr;
     }
 
-    // Insertar logo centrado con fondo sólido
+    /**
+     * Insertar logo centrado con fondo sólido, siendo el color solido el mismo
+     * que el del QR
+     *
+     * @param qr Imagen de la Matriz generada
+     * @param logo Imagen del logo
+     * @param bg Color del fondo
+     * @return
+     */
     private static BufferedImage insertLogo(BufferedImage qr, BufferedImage logo, Color bg) {
         int maxLogoSize = qr.getWidth() / 6;
         int padding = 10;
@@ -110,24 +138,20 @@ public class QrGeneratorService {
 
         Image scaledLogo = logo.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
 
-        // Crear fondo sólido para el logo
         BufferedImage logoBox = new BufferedImage(maxLogoSize, maxLogoSize, BufferedImage.TYPE_INT_ARGB);
         Graphics2D gl = logoBox.createGraphics();
         gl.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 
-        // Fondo sólido
         gl.setComposite(AlphaComposite.Src);
         gl.setColor(bg);
         gl.fillRect(0, 0, maxLogoSize, maxLogoSize);
 
-        // Dibujar logo sobre el fondo
         gl.setComposite(AlphaComposite.SrcOver);
         int xOffset = (maxLogoSize - scaledWidth) / 2;
         int yOffset = (maxLogoSize - scaledHeight) / 2;
         gl.drawImage(scaledLogo, xOffset, yOffset, null);
         gl.dispose();
 
-        // Insertar logo en QR
         Graphics2D g2 = qr.createGraphics();
         g2.setComposite(AlphaComposite.SrcOver);
         int x = (qr.getWidth() - maxLogoSize) / 2;
@@ -138,7 +162,12 @@ public class QrGeneratorService {
         return qr;
     }
 
-    // Convertir Color JavaFX → AWT
+    /**
+     * Convertir Color JavaFX en AWT
+     *
+     * @param fxColor Color fx elegido
+     * @return Color awt para formar la imagen
+     */
     private static Color fxColorToAwt(javafx.scene.paint.Color fxColor) {
         return new Color(
                 (float) fxColor.getRed(),
@@ -148,25 +177,46 @@ public class QrGeneratorService {
         );
     }
 
-    // Crear Matriz del QR
+    /**
+     * Crear Matriz del QR
+     *
+     * @param text Información del QR
+     * @return la Matiz
+     * @throws WriterException Error al escribir la matriz
+     */
     private static BitMatrix createMatrix(String text) throws WriterException {
+        Map<EncodeHintType, Object> hints = Map.of(
+                EncodeHintType.MARGIN, MARGIN,
+                EncodeHintType.CHARACTER_SET, "UTF-8" 
+        );
         return new QRCodeWriter().encode(
                 text,
                 BarcodeFormat.QR_CODE,
                 SIZE,
                 SIZE,
-                Map.of(EncodeHintType.MARGIN, MARGIN)
+                hints
         );
     }
 
-    // Guardar imagen en disco
+    /**
+     * Guardar imagen en disco
+     *
+     * @param img Imagen del QR
+     * @param path Direccion del Disco
+     * @throws Exception Error al escribir en disco
+     */
     private static void saveImage(BufferedImage img, String path) throws Exception {
         File outputFile = new File(path);
         outputFile.getParentFile().mkdirs();
         ImageIO.write(img, "png", outputFile);
     }
 
-    // Construir path de salida
+    /**
+     * Construir path de salida hacia descargas
+     *
+     * @param name Nombre del archivo
+     * @return La dirección donde se colocará
+     */
     private static String buildOutputPath(String name) {
         String userHome = System.getProperty("user.home");
         File defaultDir = new File(userHome, "Downloads");

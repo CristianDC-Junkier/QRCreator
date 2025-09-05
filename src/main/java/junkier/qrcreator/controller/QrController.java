@@ -53,7 +53,7 @@ public class QrController implements Initializable {
     private Stage parentStage;
 
     private static final String INVALID_FILENAME_CHARS = "[\\\\/:*?\"<>|]";
-    protected final String errorStyle
+    private static final String ERROR_STYLE
             = "-fx-background-color: "
             + "linear-gradient"
             + "(from 0% 0% to 100% 100%, #e52d27, #b31217);";
@@ -97,17 +97,17 @@ public class QrController implements Initializable {
     @FXML
     private void printQr() {
         if (nameQrTF.getText() == null || nameQrTF.getText().isBlank() || isNotValidFileName()) {
-            nameQrTF.setStyle(errorStyle);
+            nameQrTF.setStyle(ERROR_STYLE);
             return;
         }
         if (adressQrTF.getText() == null || adressQrTF.getText().isBlank()) {
-            adressQrTF.setStyle(errorStyle);
+            adressQrTF.setStyle(ERROR_STYLE);
             return;
         }
 
         if (isNotReadeable()) {
-            frontPatPicker.setStyle(errorStyle);
-            backGrPicker.setStyle(errorStyle);
+            frontPatPicker.setStyle(ERROR_STYLE);
+            backGrPicker.setStyle(ERROR_STYLE);
             return;
         }
 
@@ -208,8 +208,8 @@ public class QrController implements Initializable {
     @FXML
     private void refreshPicker() {
         if (isNotReadeable()) {
-            frontPatPicker.setStyle(errorStyle);
-            backGrPicker.setStyle(errorStyle);
+            frontPatPicker.setStyle(ERROR_STYLE);
+            backGrPicker.setStyle(ERROR_STYLE);
         } else {
             frontPatPicker.setStyle("");
             backGrPicker.setStyle("");
